@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Vertted. Find valuable, virtuous and verified specialists. A curated freelance agency marketplace with human-moderated reviews and fair, rotating discovery.">
+<title>Vertted | Find Valuable, Virtuous &amp; Verified Talent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --canvas:#ffffff;
+  --soft:#f5f7fa;
+  --navy:#172c52;
+  --panel:#172c52;
+  --ink:#172238;
+  --muted:#68758a;
+  --accent:#f47716;
+  --accent-2:#ff9b21;
+  --green:#19b879;
+  --line:#e8ebf0;
+  --line-dark:rgba(255,255,255,.12);
+  --radius-lg:28px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.25,1,.5,1);
+  --max:1200px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.is-loading{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+::selection{background:var(--accent);color:#fff}
+.grain::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.container{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+.display{font-family:"Fraunces",Georgia,serif;font-weight:300;letter-spacing:-.035em;line-height:.98}
+.display em{font-style:italic;font-weight:400}
+h1,h2,h3{margin:0}
+p{margin:0}
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);
+}
+.kicker::before{content:"";width:22px;height:1px;background:var(--accent)}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#preloader{
+  position:fixed;inset:0;z-index:200;background:var(--navy);
+  display:grid;place-items:center;
+  transition:opacity .6s var(--ease-out),visibility .6s;
+}
+#preloader.done{opacity:0;visibility:hidden}
+.pre-brand{
+  font-family:"Fraunces",serif;font-size:28px;letter-spacing:-.04em;color:#fff;
+  opacity:0;animation:preFade .5s .15s forwards;
+}
+@keyframes preFade{to{opacity:1}}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;display:flex;align-items:center;color:var(--navy);
+  transition:background .35s,backdrop-filter .35s,border-color .35s,color .35s;
+  border-bottom:1px solid transparent;
+}
+.topbar.scrolled{
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px) saturate(1.2);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  border-color:var(--line);
+}
+.topbar.on-dark{background:rgba(23,44,82,.82);color:#fff;border-color:var(--line-dark)}
+.nav-inner{display:flex;align-items:center;gap:32px;width:100%}
+.brand{font-family:"Fraunces",serif;font-size:24px;letter-spacing:-.05em;font-weight:500;white-space:nowrap;color:inherit}
+.brand span{color:var(--accent)}
+.nav{display:flex;align-items:center;gap:28px;margin-left:auto}
+.nav a{font-size:12px;font-weight:600;letter-spacing:.01em;opacity:.78;transition:opacity .2s}
+.nav a:hover{opacity:1}
+.nav-actions{display:flex;align-items:center;gap:14px;margin-left:8px}
+.nav-actions .ghost{font-size:12px;font-weight:600;opacity:.78;color:inherit}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:999px;padding:12px 20px;font-size:12px;font-weight:700;
+  transition:transform .3s var(--ease-out),background .25s,color .25s,box-shadow .3s;
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:0 8px 24px rgba(244,119,22,.22)}
+.btn-accent:hover{background:var(--accent-2);box-shadow:0 12px 32px rgba(244,119,22,.3)}
+.btn-ghost{border:1px solid rgba(255,255,255,.28);color:#fff;background:transparent}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.mobile-toggle{display:none;font-size:22px;line-height:1;color:inherit}
+
+/* ============================================================
+   HERO (fits in one viewport)
+   ============================================================ */
+.hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:100svh;display:flex;align-items:center;
+  background:linear-gradient(110deg,#ffffff 0%,#ffffff 55%,#f5f7fa 100%);
+  color:var(--navy);
+  padding:88px 0 24px;
+}
+.hero::before{
+  content:"";position:absolute;z-index:0;
+  right:-125px;top:-160px;width:390px;height:690px;
+  transform:rotate(39deg);
+  background:linear-gradient(180deg,#ff9b21,#f47716);
+  border-radius:90px;opacity:.9;
+}
+.hero::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;inset:0;
+  background:radial-gradient(800px 500px at 20% 90%, rgba(244,119,22,.06), transparent 65%);
+}
+.hero-grid{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;
+  width:100%;
+}
+.hero-copy .kicker{margin-bottom:18px}
+.hero h1{
+  font-size:clamp(42px,6vw,78px);
+  color:var(--navy);max-width:11ch;margin-bottom:20px;
+}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .word{display:inline-block;transform:translateY(110%);will-change:transform}
+.hero h1 .accent{color:var(--accent);font-style:italic;font-weight:400}
+.hero-sub{max-width:44ch;font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:26px}
+
+/* Search */
+.search-shell{
+  position:relative;max-width:540px;border-radius:999px;padding:1px;
+  background:#fff;border:1px solid var(--line);
+  box-shadow:0 10px 32px rgba(23,44,82,.08);
+  transition:border-color .3s,box-shadow .3s;
+}
+.search-shell:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(244,119,22,.12),0 10px 32px rgba(23,44,82,.08);
+}
+.search-box{display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:8px 8px 8px 22px}
+.search-box .ai-glyph{font-size:18px;color:var(--accent);flex:none;transition:transform .3s var(--ease-spring)}
+.search-box .ai-glyph:hover{transform:rotate(90deg) scale(1.1)}
+.search-box input{
+  flex:1;min-width:0;border:0;outline:0;background:transparent;
+  color:var(--navy);font-size:14px;letter-spacing:.01em;
+}
+.search-box input::placeholder{color:#a4adbb}
+.search-box .btn{padding:13px 22px;flex:none}
+.popular{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;font-size:11px;color:var(--muted)}
+.popular button{
+  padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+  color:var(--muted);font-size:11px;font-weight:500;background:#fff;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.popular button:hover{border-color:var(--accent);color:var(--accent);background:rgba(244,119,22,.08)}
+
+/* Hero visual */
+.hero-visual{position:relative;min-height:440px}
+.hero-portrait{
+  position:absolute;right:0;top:0;width:82%;height:100%;
+  border-radius:220px 28px 28px 28px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(23,44,82,.22);z-index:1;
+}
+.hero-portrait img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.05);transition:transform 1.2s var(--ease-out);
+}
+.hero-portrait::before{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(160deg,rgba(244,119,22,.32),rgba(23,44,82,.55));
+  mix-blend-mode:multiply;
+}
+.hero-portrait:hover img{transform:scale(1.04)}
+.hero-ring{
+  position:absolute;right:-4%;top:6%;width:88%;height:88%;
+  border:1px solid rgba(244,119,22,.28);
+  border-radius:220px 28px 28px 28px;transform:rotate(3deg);z-index:0;
+}
+.glass-card{
+  position:absolute;z-index:3;
+  background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:14px 16px;min-width:168px;
+  box-shadow:0 20px 50px rgba(23,44,82,.14);
+  color:var(--navy);will-change:transform;
+}
+.glass-card .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.glass-card .value{font-family:"Fraunces",serif;font-size:20px;color:var(--navy);letter-spacing:-.03em}
+.glass-card .meta{font-size:10px;color:var(--muted);margin-top:4px}
+.glass-card.one{left:-2%;bottom:14%;animation:floatOne 7s ease-in-out infinite}
+.glass-card.two{right:-2%;top:10%;animation:floatTwo 8.5s ease-in-out infinite}
+@keyframes floatOne{
+  0%,100%{transform:translate(0,0) rotate(-1deg)}
+  50%{transform:translate(6px,-12px) rotate(1deg)}
+}
+@keyframes floatTwo{
+  0%,100%{transform:translate(0,0) rotate(1deg)}
+  50%{transform:translate(-10px,14px) rotate(-1deg)}
+}
+.avatar-stack{display:flex;align-items:center;margin-top:6px}
+.avatar-stack img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-left:-8px}
+.avatar-stack img:first-child{margin-left:0}
+.online-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 3px rgba(25,184,121,.18);margin-right:5px;
+}
+
+/* Short viewport tuning */
+@media(max-height:820px) and (min-width:1025px){
+  .hero-visual{min-height:400px}
+  .hero h1{font-size:clamp(40px,5.4vw,68px)}
+  .hero-sub{font-size:14px;margin-bottom:22px}
+}
+
+/* ============================================================
+   TRUST TICKER
+   ============================================================ */
+.trust{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:26px 0}
+.ticker{display:flex;width:max-content;animation:ticker 42s linear infinite}
+.ticker:hover{animation-play-state:paused}
+@keyframes ticker{to{transform:translateX(-50%)}}
+.ticker-set{display:flex;align-items:center;gap:0;flex:none}
+.tick{display:flex;align-items:baseline;gap:12px;padding:0 36px;border-right:1px solid var(--line)}
+.tick:last-child{border-right:0}
+.tick b{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.03em;color:var(--navy)}
+.tick span{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ============================================================
+   TRUSTED BY
+   ============================================================ */
+.trusted-by{background:var(--canvas);padding:44px 0 20px}
+.trusted-label{
+  text-align:center;font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:22px;
+}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.logo-item{
+  font-family:"Fraunces",serif;font-size:22px;font-weight:400;letter-spacing:-.02em;
+  color:var(--navy);opacity:.45;transition:opacity .2s;
+}
+.logo-item:hover{opacity:.9}
+
+/* ============================================================
+   SECTION SCAFFOLD
+   ============================================================ */
+.section{padding:clamp(72px,9vw,120px) 0}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:48px}
+.section-head h2{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(34px,4.4vw,54px);line-height:1.02;letter-spacing:-.04em;
+  max-width:16ch;color:var(--navy);
+}
+.text-link{
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  display:inline-flex;align-items:center;gap:6px;
+  border-bottom:1px solid var(--navy);padding-bottom:3px;
+  transition:color .2s,border-color .2s;color:var(--navy);
+}
+.text-link:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ============================================================
+   SERVICES STACK
+   ============================================================ */
+.stack{position:relative;background:var(--canvas)}
+.stack-card{
+  position:sticky;top:0;height:100svh;min-height:560px;
+  display:flex;align-items:center;will-change:transform,filter;
+}
+.stack-card:nth-child(1){z-index:1}
+.stack-card:nth-child(2){z-index:2}
+.stack-card:nth-child(3){z-index:3}
+.stack-card:nth-child(4){z-index:4}
+.stack-inner{
+  width:100%;height:86%;border-radius:var(--radius-lg);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+  padding:clamp(32px,5vw,64px);
+  position:relative;overflow:hidden;color:#fff;background:var(--navy);
+}
+.stack-card[data-service="web"] .stack-inner{
+  background:radial-gradient(700px 500px at 85% 15%, rgba(244,119,22,.16), transparent 60%),var(--navy);
+}
+.stack-card[data-service="marketing"] .stack-inner{
+  background:radial-gradient(700px 500px at 15% 85%, rgba(255,155,33,.18), transparent 60%),#1a2f57;
+}
+.stack-card[data-service="video"] .stack-inner{
+  background:radial-gradient(700px 500px at 50% 50%, rgba(255,155,33,.14), transparent 60%),#0f1f3d;
+}
+.stack-card[data-service="ai"] .stack-inner{
+  background:radial-gradient(700px 500px at 50% 50%, rgba(244,119,22,.13), transparent 60%),#1e2d4a;
+}
+.stack-inner .service-index{
+  font-family:"Fraunces",serif;font-size:13px;letter-spacing:.1em;
+  color:rgba(255,255,255,.45);margin-bottom:18px;
+}
+.stack-inner h3{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(40px,5.2vw,72px);line-height:.96;letter-spacing:-.04em;
+  max-width:10ch;margin-bottom:22px;color:#fff;
+}
+.stack-inner p{max-width:38ch;font-size:14px;color:rgba(255,255,255,.66);line-height:1.75}
+.service-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.service-tags span{
+  font-size:10px;font-weight:600;letter-spacing:.04em;
+  padding:7px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.82);
+}
+.service-visual{position:relative;height:100%;min-height:280px;border-radius:var(--radius-md);overflow:hidden}
+.service-visual img{width:100%;height:100%;object-fit:cover;opacity:.8;transition:transform .8s var(--ease-out)}
+.stack-card:hover .service-visual img{transform:scale(1.05)}
+.service-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,44,82,.05),rgba(23,44,82,.45))}
+@media(max-width:860px){
+  .stack-card{position:relative;height:auto;min-height:0;margin-bottom:20px}
+  .stack-inner{grid-template-columns:1fr;height:auto;padding:32px}
+  .service-visual{min-height:220px}
+}
+
+/* ============================================================
+   NICHE
+   ============================================================ */
+.niche{position:relative;background:var(--soft);color:var(--navy);padding:clamp(80px,10vw,130px) 0;overflow:hidden}
+.niche::before{
+  content:"";position:absolute;width:600px;height:600px;
+  border:1px solid rgba(23,44,82,.08);border-radius:50%;
+  right:-180px;top:-240px;
+}
+.niche h2{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(44px,6vw,80px);line-height:.98;letter-spacing:-.045em;
+  max-width:14ch;margin-bottom:20px;color:var(--navy);
+}
+.niche h2 em{color:var(--accent)}
+.niche > .container > p{max-width:44ch;color:var(--muted);font-size:15px;line-height:1.8}
+.niche-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:44px;max-width:760px}
+.niche-zone{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(23,44,82,.1);border-radius:var(--radius-md);
+  padding:24px;background:rgba(255,255,255,.75);
+  transition:border-color .3s,background .3s;
+}
+.niche-zone::before{
+  content:"";position:absolute;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,119,22,.18),transparent 65%);
+  left:var(--mx,50%);top:var(--my,50%);
+  transform:translate(-50%,-50%);pointer-events:none;
+  opacity:0;transition:opacity .35s;
+}
+.niche-zone:hover{border-color:rgba(244,119,22,.4);background:#fff}
+.niche-zone:hover::before{opacity:1}
+.niche-zone b{
+  display:block;font-family:"Fraunces",serif;font-weight:400;
+  font-size:18px;letter-spacing:-.02em;margin-bottom:8px;position:relative;color:var(--navy);
+}
+.niche-zone span{display:block;font-size:12px;color:var(--muted);line-height:1.7;position:relative}
+.niche-zone i{font-style:normal;color:var(--accent);margin-right:7px;font-size:14px}
+
+/* ============================================================
+   SPECIALISTS CAROUSEL
+   ============================================================ */
+.specialists{background:var(--canvas)}
+.specialist-carousel{overflow:hidden;position:relative;padding:8px 0}
+.carousel-track{display:flex;width:max-content;animation:carouselScroll 70s linear infinite}
+.carousel-track:hover{animation-play-state:paused}
+.carousel-set{display:flex;gap:16px;padding-right:16px;flex:none}
+@keyframes carouselScroll{to{transform:translateX(-50%)}}
+.tilt-card{
+  position:relative;flex:0 0 clamp(260px,26vw,300px);
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--radius-md);padding:16px;
+  transform-style:preserve-3d;
+  transition:transform .2s var(--ease-out),box-shadow .3s;
+  will-change:transform;
+}
+.tilt-card:hover{box-shadow:0 24px 60px rgba(23,44,82,.12)}
+.tilt-inner{transform-style:preserve-3d}
+.spec-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;transform:translateZ(18px)}
+.spec-top img{width:52px;height:52px;border-radius:50%;object-fit:cover}
+.spec-name{font-family:"Fraunces",serif;font-size:16px;font-weight:500;letter-spacing:-.02em;line-height:1.2;color:var(--navy)}
+.spec-role{font-size:11px;color:var(--muted);margin-top:3px}
+.spec-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:#128a5b;margin-top:5px;
+}
+.spec-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+.spec-work{height:132px;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:14px;transform:translateZ(8px)}
+.spec-work img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease-out)}
+.tilt-card:hover .spec-work img{transform:scale(1.06)}
+.spec-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--muted);transform:translateZ(12px);
+}
+.spec-bottom .rating{display:inline-flex;align-items:center;gap:4px;color:#c96a12;font-weight:700}
+.spec-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;transform:translateZ(14px)}
+.spec-tags span{font-size:9px;font-weight:600;color:var(--muted);background:var(--soft);padding:5px 9px;border-radius:999px}
+
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+.how{background:var(--canvas)}
+.how-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:start}
+.how-sticky{position:sticky;top:120px}
+.how-sticky h2{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(34px,4.2vw,54px);line-height:1.02;letter-spacing:-.04em;
+  margin-bottom:20px;color:var(--navy);
+}
+.how-sticky h2 em{color:var(--accent)}
+.how-sticky p{max-width:38ch;font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:26px}
+.steps{display:grid;gap:0}
+.step{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:18px 0;border-top:1px solid var(--line);
+  opacity:.35;transition:opacity .4s;
+}
+.step.active{opacity:1}
+.step-num{font-family:"Fraunces",serif;font-size:14px;font-weight:500;color:var(--accent);min-width:24px}
+.step-body b{display:block;font-size:13px;font-weight:700;margin-bottom:4px;color:var(--navy)}
+.step-body span{font-size:12px;color:var(--muted);line-height:1.6}
+.how-scenes{position:relative}
+.scene{
+  position:sticky;top:120px;height:min(72vh,540px);
+  border-radius:var(--radius-lg);background:var(--navy);overflow:hidden;
+  margin-bottom:24px;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(30px);
+  transition:opacity .55s var(--ease-out),transform .55s var(--ease-out);
+  will-change:transform,opacity;
+}
+.scene.active{opacity:1;transform:none}
+.scene:last-child{margin-bottom:0}
+.scene-mock{
+  width:78%;max-width:360px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;padding:18px;backdrop-filter:blur(12px);
+}
+.scene-mock .mock-bar{
+  height:36px;border-radius:10px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;padding:0 12px;gap:8px;margin-bottom:12px;
+}
+.mock-bar .dots{display:flex;gap:5px}
+.mock-bar .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2)}
+.mock-bar .txt{font-size:10px;color:rgba(255,255,255,.5)}
+.mock-line{height:8px;border-radius:4px;background:rgba(255,255,255,.1);margin-bottom:8px}
+.mock-line.w80{width:80%}.mock-line.w60{width:60%}
+.mock-chip-row{display:flex;gap:6px;margin-top:12px}
+.mock-chip{height:22px;padding:0 10px;border-radius:999px;background:rgba(244,119,22,.18);border:1px solid rgba(244,119,22,.4);display:flex;align-items:center;font-size:9px;color:#ffc7a3}
+.mock-btn{height:34px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;margin-top:14px}
+.mock-offer{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.6);margin-bottom:10px}
+.mock-check{display:flex;align-items:center;gap:8px;font-size:10px;color:rgba(255,255,255,.8);margin-bottom:8px}
+.mock-check i{width:14px;height:14px;border-radius:50%;background:rgba(25,184,121,.2);display:grid;place-items:center;color:var(--green);font-size:8px;font-style:normal}
+.mock-stars{display:flex;gap:4px;margin-bottom:10px}
+.mock-stars span{color:#ffb43a;font-size:14px}
+.mock-published{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:700;margin-top:10px}
+@media(max-width:860px){
+  .how-layout{grid-template-columns:1fr;gap:32px}
+  .how-sticky{position:relative;top:0}
+  .scene{position:relative;top:0;height:320px;opacity:1;transform:none;margin-bottom:14px}
+}
+
+/* ============================================================
+   REVIEWS
+   ============================================================ */
+.reviews{background:var(--soft)}
+.reviews-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.review-queue{
+  position:relative;height:380px;border-radius:var(--radius-lg);
+  background:var(--navy);overflow:hidden;display:grid;place-items:center;
+}
+.queue-card{
+  position:absolute;width:70%;max-width:300px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  border-radius:14px;padding:16px;
+  transition:transform .55s var(--ease-out),opacity .55s;
+}
+.queue-card:nth-child(1){transform:translateY(-52px) scale(.9);opacity:.35}
+.queue-card:nth-child(2){transform:translateY(-14px) scale(.95);opacity:.6}
+.queue-card:nth-child(3){transform:translateY(24px);opacity:1}
+.queue-card .q-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.queue-card .q-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15)}
+.queue-card .q-name{font-size:10px;font-weight:700;color:#fff}
+.queue-card .q-role{font-size:9px;color:rgba(255,255,255,.45)}
+.queue-stars{color:#ffb43a;font-size:11px;margin-bottom:8px}
+.queue-line{height:6px;border-radius:3px;background:rgba(255,255,255,.1);margin-bottom:6px}
+.queue-line.short{width:60%}
+.queue-approve{
+  position:absolute;right:18px;bottom:18px;
+  display:flex;align-items:center;gap:6px;
+  font-size:9px;font-weight:700;color:var(--green);
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.queue-approve::before{content:"✓";width:16px;height:16px;border-radius:50%;background:rgba(25,184,121,.2);display:grid;place-items:center;font-size:9px}
+.review-copy h2{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(32px,4vw,48px);line-height:1.04;letter-spacing:-.04em;
+  margin-bottom:18px;color:var(--navy);
+}
+.review-copy h2 em{color:var(--accent)}
+.review-copy p{max-width:40ch;font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px}
+.review-timeline{display:grid;gap:0;margin-bottom:26px}
+.rt-item{display:flex;gap:14px;padding:14px 0;border-top:1px solid rgba(23,44,82,.1)}
+.rt-num{font-family:"Fraunces",serif;font-size:12px;color:var(--accent);min-width:20px}
+.rt-item b{font-size:12px;font-weight:700;display:block;margin-bottom:2px;color:var(--navy)}
+.rt-item span{font-size:11px;color:var(--muted)}
+.review-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+.review-strip::-webkit-scrollbar{height:3px}
+.review-strip::-webkit-scrollbar-thumb{background:rgba(23,44,82,.15);border-radius:3px}
+.strip-card{flex:none;width:240px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.strip-card .s-stars{color:#d98a1f;font-size:11px;margin-bottom:8px}
+.strip-card p{font-size:11px;line-height:1.65;color:#4b5768;margin-bottom:10px}
+.strip-card b{font-size:10px;font-weight:700;color:var(--navy)}
+.strip-card span{font-size:9px;color:var(--muted);display:block}
+@media(max-width:860px){
+  .reviews-layout{grid-template-columns:1fr;gap:32px}
+  .review-queue{height:320px}
+}
+
+/* ============================================================
+   JOIN WITH IMAGE
+   ============================================================ */
+.join{
+  position:relative;color:#fff;
+  padding:clamp(96px,11vw,150px) 0;overflow:hidden;text-align:center;
+  background:
+    linear-gradient(110deg, rgba(237,100,12,.88) 0%, rgba(255,152,34,.78) 100%),
+    url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=85') center/cover no-repeat;
+}
+.join::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(700px 400px at 50% 0%, rgba(255,255,255,.14), transparent 70%);
+}
+.join::after{
+  content:"";position:absolute;width:420px;height:420px;
+  border:1px solid rgba(255,255,255,.16);border-radius:50%;
+  right:12%;top:-200px;
+}
+.join h2{
+  position:relative;font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(42px,6vw,78px);line-height:.98;letter-spacing:-.045em;
+  max-width:16ch;margin:0 auto 22px;color:#fff;
+}
+.join h2 em{color:#ffe6cd}
+.join p{position:relative;max-width:42ch;margin:0 auto 34px;font-size:15px;color:rgba(255,255,255,.85);line-height:1.8}
+.join-actions{position:relative;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.join-actions .btn{padding:15px 28px;font-size:13px}
+.join-actions .btn-primary{background:var(--navy);color:#fff;box-shadow:0 10px 28px rgba(23,44,82,.28)}
+.join-actions .btn-primary:hover{background:#0f1f3d}
+.join-actions .btn-secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.75)}
+.join-actions .btn-secondary:hover{background:rgba(255,255,255,.12)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:var(--canvas);color:var(--ink);border-top:1px solid var(--line);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
+.footer-brand .brand{font-size:26px;margin-bottom:14px;display:inline-block;color:var(--navy)}
+.footer-brand p{font-size:11px;color:var(--muted);line-height:1.7;max-width:24ch}
+.footer-col b{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);margin-bottom:16px}
+.footer-col a{display:block;font-size:11px;color:var(--muted);margin:10px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{
+  border-top:1px solid var(--line);margin-top:48px;padding-top:20px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:10px;color:var(--muted);
+}
+
+/* ============================================================
+   AI DRAWER
+   ============================================================ */
+.ai-fab{
+  position:fixed;right:24px;bottom:24px;z-index:90;
+  display:flex;align-items:center;gap:9px;
+  padding:15px 20px;border-radius:999px;
+  background:var(--navy);color:#fff;
+  font-size:12px;font-weight:700;
+  box-shadow:0 16px 40px rgba(23,44,82,.3);
+  transition:transform .3s var(--ease-spring),box-shadow .3s;
+}
+.ai-fab:hover{transform:translateY(-3px);box-shadow:0 20px 50px rgba(23,44,82,.38)}
+.ai-fab .glyph{color:#ffc7a3;font-size:16px;transition:transform .4s var(--ease-spring)}
+.ai-fab:hover .glyph{transform:rotate(90deg)}
+.ai-overlay{
+  position:fixed;inset:0;z-index:110;background:rgba(23,44,82,.5);
+  backdrop-filter:blur(6px);opacity:0;visibility:hidden;
+  transition:opacity .4s,visibility .4s;
+}
+.ai-overlay.open{opacity:1;visibility:visible}
+.ai-drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:120;
+  width:min(480px,100vw);background:var(--navy);color:#fff;
+  transform:translateX(100%);
+  transition:transform .5s var(--ease-out);
+  display:flex;flex-direction:column;
+  border-left:1px solid var(--line-dark);
+  box-shadow:-40px 0 100px rgba(0,0,0,.3);
+}
+.ai-drawer.open{transform:none}
+.ai-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 24px;border-bottom:1px solid var(--line-dark);flex:none;
+}
+.ai-head .ai-title{display:flex;align-items:center;gap:10px}
+.ai-head .ai-title .glyph{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(244,119,22,.18);display:grid;place-items:center;color:#ffc7a3;font-size:14px;
+}
+.ai-head b{font-family:"Fraunces",serif;font-size:16px;font-weight:400;letter-spacing:-.02em}
+.ai-head small{display:block;font-size:10px;color:rgba(255,255,255,.42);margin-top:2px}
+.ai-close{font-size:24px;line-height:1;opacity:.6;transition:opacity .2s}
+.ai-close:hover{opacity:1}
+.ai-body{flex:1;overflow-y:auto;padding:32px 24px;display:flex;flex-direction:column;gap:20px}
+.ai-question{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:clamp(24px,3vw,32px);line-height:1.1;letter-spacing:-.03em;
+  margin-bottom:8px;color:#fff;
+}
+.ai-question em{color:#ffc7a3}
+.ai-choices{display:grid;gap:10px;margin-top:8px}
+.ai-choice{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.04);
+  text-align:left;transition:border-color .25s,background .25s,transform .2s;
+}
+.ai-choice:hover{border-color:rgba(255,199,163,.45);background:rgba(244,119,22,.08);transform:translateX(3px)}
+.ai-choice .choice-label{font-size:13px;font-weight:600;color:#fff}
+.ai-choice .choice-meta{font-size:10px;color:rgba(255,255,255,.42);margin-top:3px}
+.ai-choice .choice-arrow{color:#ffc7a3;font-size:16px;flex:none}
+.ai-footer{
+  flex:none;padding:16px 24px;border-top:1px solid var(--line-dark);
+  font-size:9px;color:rgba(255,255,255,.32);line-height:1.6;
+}
+.ai-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;color:rgba(255,255,255,.5);margin-bottom:16px;
+  transition:color .2s;
+}
+.ai-back:hover{color:#fff}
+.ai-gig{
+  display:flex;gap:12px;padding:12px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.03);
+  transition:border-color .2s;
+}
+.ai-gig:hover{border-color:rgba(255,199,163,.4)}
+.ai-gig img{width:56px;height:56px;border-radius:9px;object-fit:cover;flex:none}
+.ai-gig .gig-name{font-size:11px;font-weight:700;margin-bottom:3px;color:#fff}
+.ai-gig .gig-role{font-size:10px;color:rgba(255,255,255,.42)}
+.ai-gig .gig-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.ai-gig .gig-tags span{font-size:8px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.ai-shuffle{margin-top:12px;font-size:11px;font-weight:600;color:#ffc7a3;display:inline-flex;align-items:center;gap:6px}
+
+/* ============================================================
+   REVEAL & REDUCED MOTION
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+  .hero h1 .word{transform:none}
+  .glass-card{animation:none}
+  .stack-card{position:relative;height:auto;min-height:0;margin-bottom:20px}
+  .stack-inner{grid-template-columns:1fr;height:auto}
+  .scene{position:relative;top:0;opacity:1;transform:none;height:auto;min-height:280px;margin-bottom:16px}
+  .ticker,.carousel-track{animation:none}
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero{min-height:0;padding:110px 0 60px}
+  .hero-visual{min-height:380px;max-width:520px}
+  .hero-portrait{width:72%}
+  .specialist-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1.2fr 1fr 1fr}
+  .logo-row{gap:28px}
+  .logo-item{font-size:18px}
+}
+@media(max-width:720px){
+  .container{width:calc(100% - 32px)}
+  .nav{display:none}
+  .mobile-toggle{display:block;margin-left:auto}
+  .nav.open{
+    display:flex;position:absolute;top:72px;left:0;right:0;
+    background:#fff;flex-direction:column;align-items:flex-start;
+    padding:24px;gap:18px;border-bottom:1px solid var(--line);
+  }
+  .topbar.on-dark .nav.open{background:var(--navy)}
+  .nav-actions .ghost{display:none}
+  .hero h1{font-size:clamp(36px,10.5vw,52px)}
+  .hero-visual{min-height:320px}
+  .glass-card.one{left:0;bottom:6%}
+  .glass-card.two{right:0;top:4%}
+  .section-head{flex-direction:column;align-items:flex-start;gap:16px}
+  .section-head h2{max-width:100%}
+  .niche-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1/-1}
+  .footer-col:last-child{display:block}
+  .ai-fab{right:16px;bottom:16px;padding:13px 17px}
+  .tick{padding:0 22px}
+  .logo-row{gap:20px}
+  .logo-item{font-size:15px}
+  .tilt-card{flex:0 0 78vw}
+}
+@media(max-width:400px){
+  .hero h1{font-size:clamp(32px,10vw,42px)}
+}
+</style>
+</head>
+<body class="is-loading">
+
+<div id="preloader"><div class="pre-brand">Vertted<span style="color:#f47716">.</span></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="container nav-inner">
+    <a class="brand" href="#" aria-label="Vertted home">Vertted<span>.</span></a>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">☰</button>
+    <nav class="nav" id="nav">
+      <a href="#services">Explore talent</a>
+      <a href="#agency">Hire the agency</a>
+      <a href="#how">How to hire</a>
+      <a href="#trust">Why Vertted</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="ghost" href="#join">Sign in</a>
+      <a class="btn btn-accent" href="#join">Join Vertted</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="kicker">A better way to find great talent</div>
+      <h1 class="display">
+        <span class="line"><span class="word">Find</span> <span class="word">the</span> <span class="word accent">right</span> <span class="word accent">talent.</span></span>
+        <span class="line"><span class="word">Make</span> <span class="word">great</span> <span class="word">work</span> <span class="word">happen.</span></span>
+      </h1>
+      <p class="hero-sub">Carefully vetted independent specialists for your next big idea. Discover the right skills, the right people, and the confidence to start.</p>
+
+      <div class="search-shell">
+        <form class="search-box" id="searchForm">
+          <button type="button" class="ai-glyph" id="searchAi" aria-label="Ask the AI assistant">✦</button>
+          <input id="serviceSearch" type="text" autocomplete="off" placeholder="What service are you looking for?" aria-label="Search for a service">
+          <button class="btn btn-accent" type="submit">Search →</button>
+        </form>
+      </div>
+      <div class="popular">
+        <span>Popular:</span>
+        <button data-search="UI/UX design">UI/UX</button>
+        <button data-search="Video editing">Video editing</button>
+        <button data-search="Social media marketing">Social media</button>
+        <button data-search="AI automation">AI automation</button>
+        <button data-search="Shopify development">Shopify</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-ring"></div>
+      <div class="hero-portrait">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=85" alt="Creative team collaborating">
+      </div>
+      <div class="glass-card one">
+        <div class="label">Community built on trust</div>
+        <div class="value">Talent, verified.</div>
+        <div class="meta"><span class="online-dot"></span>Human-reviewed profiles</div>
+      </div>
+      <div class="glass-card two">
+        <div class="label">Find your specialist</div>
+        <div class="avatar-stack">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=80" alt="">
+        </div>
+        <div class="meta">Independent experts, one place</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust" id="trust">
+  <div class="ticker">
+    <div class="ticker-set">
+      <div class="tick"><b>2,400+</b><span>Vetted specialists</span></div>
+      <div class="tick"><b>18k</b><span>Projects delivered</span></div>
+      <div class="tick"><b>4.9</b><span>Average approved rating</span></div>
+      <div class="tick"><b>100%</b><span>Reviews moderated</span></div>
+      <div class="tick"><b>7 days</b><span>To first client message</span></div>
+    </div>
+    <div class="ticker-set" aria-hidden="true">
+      <div class="tick"><b>2,400+</b><span>Vetted specialists</span></div>
+      <div class="tick"><b>18k</b><span>Projects delivered</span></div>
+      <div class="tick"><b>4.9</b><span>Average approved rating</span></div>
+      <div class="tick"><b>100%</b><span>Reviews moderated</span></div>
+      <div class="tick"><b>7 days</b><span>To first client message</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="trusted-by">
+  <div class="container">
+    <p class="trusted-label">Trusted by teams at</p>
+    <div class="logo-row">
+      <span class="logo-item">Northwind</span>
+      <span class="logo-item">Lumen</span>
+      <span class="logo-item">Arc Studio</span>
+      <span class="logo-item">Fielder</span>
+      <span class="logo-item">Monument</span>
+      <span class="logo-item">Kova</span>
+    </div>
+  </div>
+</section>
+
+<section class="stack" id="services" aria-label="Services">
+  <article class="stack-card" data-service="web">
+    <div class="container stack-inner grain">
+      <div>
+        <div class="service-index">01 / Build digital</div>
+        <h3>Website &amp;<br>Development</h3>
+        <p>Digital experiences designed to look sharp and work beautifully. Find a specialist who goes deep in the stack your project actually needs.</p>
+        <div class="service-tags"><span>UI/UX Design</span><span>WordPress</span><span>Webflow</span><span>Shopify</span><span>Frontend</span></div>
+      </div>
+      <div class="service-visual">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=85" alt="Developer working at a laptop">
+      </div>
+    </div>
+  </article>
+  <article class="stack-card" data-service="marketing">
+    <div class="container stack-inner grain">
+      <div>
+        <div class="service-index">02 / Grow your brand</div>
+        <h3>Marketing</h3>
+        <p>Make your brand easier to discover, remember and choose. Work with people who specialise in the channel that moves your numbers.</p>
+        <div class="service-tags"><span>Social Media</span><span>SEO</span><span>Paid Ads</span><span>Brand Strategy</span><span>Email</span></div>
+      </div>
+      <div class="service-visual">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=85" alt="Marketing team planning">
+      </div>
+    </div>
+  </article>
+  <article class="stack-card" data-service="video">
+    <div class="container stack-inner grain">
+      <div>
+        <div class="service-index">03 / Make it move</div>
+        <h3>Video &amp;<br>Animation</h3>
+        <p>Turn your message into visual stories people want to watch. Find editors, motion designers and animators who understand pace.</p>
+        <div class="service-tags"><span>Video Editing</span><span>Motion Design</span><span>2D Animation</span><span>Reels</span><span>Color</span></div>
+      </div>
+      <div class="service-visual">
+        <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=900&q=85" alt="Video creator editing">
+      </div>
+    </div>
+  </article>
+  <article class="stack-card" data-service="ai">
+    <div class="container stack-inner grain">
+      <div>
+        <div class="service-index">04 / Automate work</div>
+        <h3>AI &amp;<br>Automation</h3>
+        <p>Turn repetitive work into intelligent systems. Find specialists who design, build and ship AI workflows your team can actually use.</p>
+        <div class="service-tags"><span>AI Chatbots</span><span>Workflows</span><span>Integrations</span><span>LLM</span><span>RAG</span></div>
+      </div>
+      <div class="service-visual">
+        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85" alt="AI automation visual">
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="niche" id="agency">
+  <div class="container">
+    <div class="kicker reveal">Specialists, not guesswork</div>
+    <h2 class="reveal">Not just anyone.<br><em>Your exact specialist.</em></h2>
+    <p class="reveal">Find people who go deep in the skills your project actually needs, across design, development, marketing, video and AI. Or, if you would rather have a team guide the process, our agency is ready to help.</p>
+    <div class="niche-grid">
+      <div class="niche-zone reveal">
+        <b><i>✦</i>Specific expertise</b>
+        <span>Find a specialist by service, category and skill. No generalists pretending to do everything.</span>
+      </div>
+      <div class="niche-zone reveal">
+        <b><i>✓</i>Human-reviewed talent</b>
+        <span>Freelancer applications are reviewed before going live. Quality is a gate, not a badge.</span>
+      </div>
+      <div class="niche-zone reveal">
+        <b><i>↗</i>Flexible ways to hire</b>
+        <span>Choose an independent expert or hand the whole project to the agency team.</span>
+      </div>
+      <div class="niche-zone reveal">
+        <b><i>◎</i>Trust that is earned</b>
+        <span>Every review is checked by a human before it appears publicly. Reputation is moderated.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section specialists">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">Meet the specialists</div>
+        <h2>Great work starts with great talent.</h2>
+      </div>
+      <a class="text-link" href="#join">Become a listed freelancer ↗</a>
+    </div>
+  </div>
+  <div class="specialist-carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-set">
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=85" alt="David O.">
+              <div>
+                <div class="spec-name">David O.</div>
+                <div class="spec-role">Web Developer</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80" alt="Website project"></div>
+            <div class="spec-bottom"><span>Website &amp; Development</span><span class="rating">★ 4.9</span></div>
+            <div class="spec-tags"><span>WordPress</span><span>Web Design</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=85" alt="Chinma O.">
+              <div>
+                <div class="spec-name">Chinma O.</div>
+                <div class="spec-role">Digital Marketer</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=500&q=80" alt="Branding project"></div>
+            <div class="spec-bottom"><span>Marketing</span><span class="rating">★ 4.8</span></div>
+            <div class="spec-tags"><span>Social Media</span><span>Strategy</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=85" alt="Tunde A.">
+              <div>
+                <div class="spec-name">Tunde A.</div>
+                <div class="spec-role">Software Engineer</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80" alt="Code on a screen"></div>
+            <div class="spec-bottom"><span>Website &amp; Development</span><span class="rating">★ 5.0</span></div>
+            <div class="spec-tags"><span>Frontend</span><span>React</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&q=85" alt="Nneka E.">
+              <div>
+                <div class="spec-name">Nneka E.</div>
+                <div class="spec-role">Visual Designer</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=500&q=80" alt="Creative interface project"></div>
+            <div class="spec-bottom"><span>Video &amp; Animation</span><span class="rating">★ 4.9</span></div>
+            <div class="spec-tags"><span>Motion Design</span><span>Branding</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=85" alt="Kelechi A.">
+              <div>
+                <div class="spec-name">Kelechi A.</div>
+                <div class="spec-role">AI Automation Specialist</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=500&q=80" alt="AI automation project"></div>
+            <div class="spec-bottom"><span>AI &amp; Automation</span><span class="rating">★ 4.9</span></div>
+            <div class="spec-tags"><span>Workflows</span><span>Integrations</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=85" alt="Ifeoma N.">
+              <div>
+                <div class="spec-name">Ifeoma N.</div>
+                <div class="spec-role">UI/UX Designer</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="UI design project"></div>
+            <div class="spec-bottom"><span>Website &amp; Development</span><span class="rating">★ 4.8</span></div>
+            <div class="spec-tags"><span>Figma</span><span>Fintech</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=160&q=85" alt="Femi B.">
+              <div>
+                <div class="spec-name">Femi B.</div>
+                <div class="spec-role">Video Editor</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=500&q=80" alt="Video editing project"></div>
+            <div class="spec-bottom"><span>Video &amp; Animation</span><span class="rating">★ 4.9</span></div>
+            <div class="spec-tags"><span>Reels</span><span>Color</span></div>
+          </div>
+        </article>
+        <article class="tilt-card">
+          <div class="tilt-inner">
+            <div class="spec-top">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=160&q=85" alt="Maya R.">
+              <div>
+                <div class="spec-name">Maya R.</div>
+                <div class="spec-role">Brand Strategist</div>
+                <div class="spec-badge">Verified profile</div>
+              </div>
+            </div>
+            <div class="spec-work"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=500&q=80" alt="Brand strategy project"></div>
+            <div class="spec-bottom"><span>Marketing</span><span class="rating">★ 4.7</span></div>
+            <div class="spec-tags"><span>Brand</span><span>Paid Ads</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <p style="font-size:10px;color:#9aa3b1;margin-top:18px">Illustrative profile previews. Replace with approved live freelancer and gig data before launch.</p>
+  </div>
+</section>
+
+<section class="section how" id="how">
+  <div class="container">
+    <div class="how-layout">
+      <div class="how-sticky reveal">
+        <div class="kicker">A simpler way to get it done</div>
+        <h2>From first search to <em>great work.</em></h2>
+        <p>A clear path to the right person, without endless scrolling or guesswork. Scroll through the four steps.</p>
+        <div class="steps">
+          <div class="step active" data-step="0"><div class="step-num">01</div><div class="step-body"><b>Search or ask the AI</b><span>Tell us the service or the outcome you need.</span></div></div>
+          <div class="step" data-step="1"><div class="step-num">02</div><div class="step-body"><b>Explore specialists</b><span>See gigs, work and verified reviews side by side.</span></div></div>
+          <div class="step" data-step="2"><div class="step-num">03</div><div class="step-body"><b>Contact and agree</b><span>Chat, get a custom offer, and start the work.</span></div></div>
+          <div class="step" data-step="3"><div class="step-num">04</div><div class="step-body"><b>Review the work</b><span>Share feedback. It is moderated before it goes live.</span></div></div>
+        </div>
+        <a class="btn btn-accent" href="#join" style="margin-top:24px">Find my specialist →</a>
+      </div>
+
+      <div class="how-scenes">
+        <div class="scene active" data-scene="0">
+          <div class="scene-mock">
+            <div class="mock-bar"><div class="dots"><i></i><i></i><i></i></div><span class="txt">Search Vertted</span></div>
+            <div class="mock-line w80"></div>
+            <div class="mock-line w60"></div>
+            <div class="mock-chip-row"><span class="mock-chip">UI/UX</span><span class="mock-chip">Figma</span><span class="mock-chip">Fintech</span></div>
+          </div>
+        </div>
+        <div class="scene" data-scene="1">
+          <div class="scene-mock">
+            <div class="mock-bar"><span class="txt">Specialist profile</span></div>
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+              <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
+              <div><div class="mock-line" style="width:70px;height:7px;margin:0 0 5px"></div><div class="mock-line" style="width:50px;height:5px;margin:0"></div></div>
+            </div>
+            <div class="mock-line w80"></div><div class="mock-line w60"></div>
+            <div class="mock-btn">Contact</div>
+          </div>
+        </div>
+        <div class="scene" data-scene="2">
+          <div class="scene-mock">
+            <div class="mock-bar"><span class="txt">Custom offer</span></div>
+            <div class="mock-offer"><span>Scope</span><span>UI/UX, 3 screens</span></div>
+            <div class="mock-check"><i>✓</i> Wireframes</div>
+            <div class="mock-check"><i>✓</i> High-fidelity UI</div>
+            <div class="mock-check"><i>✓</i> Prototype</div>
+            <div class="mock-btn">Accept offer</div>
+          </div>
+        </div>
+        <div class="scene" data-scene="3">
+          <div class="scene-mock">
+            <div class="mock-bar"><span class="txt">Review</span></div>
+            <div class="mock-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <div class="mock-line w80"></div><div class="mock-line w60"></div>
+            <div class="mock-published">✓ Approved &amp; published</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section reviews">
+  <div class="container">
+    <div class="reviews-layout">
+      <div class="review-queue reveal">
+        <div class="queue-card">
+          <div class="q-head"><div class="q-avatar"></div><div><div class="q-name">Amara K.</div><div class="q-role">Product lead</div></div></div>
+          <div class="queue-stars">★★★★★</div>
+          <div class="queue-line"></div><div class="queue-line short"></div>
+        </div>
+        <div class="queue-card">
+          <div class="q-head"><div class="q-avatar"></div><div><div class="q-name">James R.</div><div class="q-role">Founder</div></div></div>
+          <div class="queue-stars">★★★★★</div>
+          <div class="queue-line"></div><div class="queue-line short"></div>
+        </div>
+        <div class="queue-card">
+          <div class="q-head"><div class="q-avatar"></div><div><div class="q-name">Sofia M.</div><div class="q-role">Marketing director</div></div></div>
+          <div class="queue-stars">★★★★★</div>
+          <div class="queue-line"></div><div class="queue-line short"></div>
+          <div class="queue-approve">Approved</div>
+        </div>
+      </div>
+
+      <div class="review-copy reveal">
+        <div class="kicker">Built around real trust</div>
+        <h2>Reviews that <em>mean something.</em></h2>
+        <p>Every review is read by a human before it appears. Clients see feedback that has passed a moderation process, not an open comment box.</p>
+        <div class="review-timeline">
+          <div class="rt-item"><div class="rt-num">01</div><div><b>Request a review</b><span>The freelancer shares a unique review link.</span></div></div>
+          <div class="rt-item"><div class="rt-num">02</div><div><b>Client shares feedback</b><span>Rating, written review and optional video.</span></div></div>
+          <div class="rt-item"><div class="rt-num">03</div><div><b>Admin moderation</b><span>The review is checked and approved.</span></div></div>
+          <div class="rt-item"><div class="rt-num">04</div><div><b>Published with context</b><span>It appears on matching gigs and the profile.</span></div></div>
+        </div>
+        <div class="review-strip">
+          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“She understood the fintech constraints immediately. The Figma files were clean and the handoff was painless.”</p><b>Amara K.</b><span>UI/UX project</span></div>
+          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“Fast, clear and genuinely strategic. Our onboarding conversion moved within the first two weeks.”</p><b>James R.</b><span>Marketing sprint</span></div>
+          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“The edit kept the pace without losing the story. Exactly what the launch needed.”</p><b>Sofia M.</b><span>Video launch</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="container">
+    <h2 class="reveal">Your next great project <em>starts here.</em></h2>
+    <p class="reveal">Find a specialist or build your presence as a verified independent talent. Two paths, one standard.</p>
+    <div class="join-actions reveal">
+      <a class="btn btn-primary" href="#services">Find a specialist ↗</a>
+      <a class="btn btn-secondary" href="mailto:hello@vertted.com?subject=Join%20Vertted">Join as a freelancer ↗</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">Vertted<span>.</span></div>
+        <p>Find valuable, virtuous and verified talents. A more thoughtful way to bring great work to life.</p>
+      </div>
+      <div class="footer-col">
+        <b>Explore</b>
+        <a href="#services">Website &amp; Development</a>
+        <a href="#services">Marketing</a>
+        <a href="#services">Video &amp; Animation</a>
+        <a href="#services">AI &amp; Automation</a>
+        <a href="#join">Find a specialist</a>
+      </div>
+      <div class="footer-col">
+        <b>For freelancers</b>
+        <a href="#join">Join Vertted</a>
+        <a href="#trust">Verification</a>
+        <a href="#how">How to hire</a>
+      </div>
+      <div class="footer-col">
+        <b>Company</b>
+        <a href="#agency">Hire the agency</a>
+        <a href="#trust">About Vertted</a>
+        <a href="mailto:hello@vertted.com">Contact</a>
+        <a href="#join">Privacy &amp; terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Vertted. All rights reserved.</span>
+      <span>Find Valuable, Virtuous &amp; Verified Talents.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="ai-fab" id="aiFab" aria-label="Open AI assistant"><span class="glyph">✦</span> Ask Vertted</button>
+<div class="ai-overlay" id="aiOverlay"></div>
+<aside class="ai-drawer" id="aiDrawer" aria-label="AI assistant" aria-hidden="true">
+  <div class="ai-head">
+    <div class="ai-title"><div class="glyph">✦</div><div><b>Vertted guide</b><small>Find the right fit, faster</small></div></div>
+    <button class="ai-close" id="aiClose" aria-label="Close assistant">×</button>
+  </div>
+  <div class="ai-body" id="aiBody"></div>
+  <div class="ai-footer">AI assistant. Recommendations use live Vertted listings only. Never asks for passwords or card details.</div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ============================================================
+   PRELOADER + HERO REVEAL
+   ============================================================ */
+window.addEventListener('load', () => {
+  const pre = document.getElementById('preloader');
+  setTimeout(() => {
+    pre.classList.add('done');
+    document.body.classList.remove('is-loading');
+    gsap.to('.hero h1 .word', {y:0, duration:1.1, stagger:0.045, ease:'power4.out', delay:0.1});
+  }, 500);
+});
+
+/* ============================================================
+   LENIS
+   ============================================================ */
+const lenis = new Lenis({
+  duration: 1.15,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true
+});
+function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ============================================================
+   NAV STATE
+   ============================================================ */
+const topbar = document.getElementById('topbar');
+ScrollTrigger.create({
+  start: 0, end: 'max',
+  onUpdate: () => {
+    const y = window.scrollY;
+    topbar.classList.toggle('scrolled', y > 40);
+    const navRect = topbar.getBoundingClientRect();
+    const navMid = navRect.top + navRect.height / 2;
+    let isDark = false;
+    document.querySelectorAll('.stack, .ai-drawer').forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (navMid >= r.top && navMid <= r.bottom) isDark = true;
+    });
+    topbar.classList.toggle('on-dark', isDark);
+  }
+});
+document.getElementById('mobileToggle').onclick = () => {
+  document.getElementById('nav').classList.toggle('open');
+};
+document.querySelectorAll('.nav a').forEach(a => a.onclick = () => {
+  document.getElementById('nav').classList.remove('open');
+});
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   STACK
+   ============================================================ */
+gsap.registerPlugin(ScrollTrigger);
+const stackCards = gsap.utils.toArray('.stack-card');
+stackCards.forEach((card, i) => {
+  if (i === stackCards.length - 1) return;
+  const next = stackCards[i + 1];
+  gsap.to(card, {
+    scale: 0.9, filter: 'brightness(0.5)', ease: 'none',
+    scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true }
+  });
+});
+
+/* ============================================================
+   CAROUSEL DUPLICATION + TILT (delegated)
+   ============================================================ */
+const carouselTrack = document.getElementById('carouselTrack');
+const carouselSet = carouselTrack.querySelector('.carousel-set');
+const clone = carouselSet.cloneNode(true);
+clone.setAttribute('aria-hidden', 'true');
+carouselTrack.appendChild(clone);
+
+const carouselEl = document.querySelector('.specialist-carousel');
+carouselEl.addEventListener('mousemove', e => {
+  const card = e.target.closest('.tilt-card');
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  card.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+});
+carouselEl.addEventListener('mouseleave', () => {
+  carouselEl.querySelectorAll('.tilt-card').forEach(c => c.style.transform = '');
+});
+
+/* ============================================================
+   HOW SCENES
+   ============================================================ */
+const scenes = document.querySelectorAll('.scene');
+const steps = document.querySelectorAll('.step');
+scenes.forEach((scene, i) => {
+  ScrollTrigger.create({
+    trigger: scene, start: 'top 55%', end: 'bottom 45%',
+    onEnter: () => setActiveStep(i),
+    onEnterBack: () => setActiveStep(i)
+  });
+});
+function setActiveStep(i) {
+  steps.forEach((s, idx) => s.classList.toggle('active', idx === i));
+  scenes.forEach((s, idx) => s.classList.toggle('active', idx === i));
+}
+
+/* ============================================================
+   NICHE GLOW
+   ============================================================ */
+document.querySelectorAll('.niche-zone').forEach(zone => {
+  zone.addEventListener('pointermove', e => {
+    const r = zone.getBoundingClientRect();
+    zone.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    zone.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* ============================================================
+   TYPEWRITER SEARCH PLACEHOLDER
+   ============================================================ */
+const searchInput = document.getElementById('serviceSearch');
+const phrases = [
+  "What service are you looking for?",
+  "Website design",
+  "Video editing",
+  "Social media marketing",
+  "UI/UX design",
+  "AI automation",
+  "Shopify development",
+  "Marketing strategy"
+];
+let pIdx = 0, cIdx = 0, deleting = false, paused = false;
+
+function type() {
+  if (paused || searchInput.value) { setTimeout(type, 500); return; }
+  const phrase = phrases[pIdx];
+  if (!deleting) {
+    searchInput.placeholder = phrase.substring(0, cIdx + 1);
+    cIdx++;
+    if (cIdx === phrase.length) {
+      deleting = true;
+      setTimeout(type, 1600);
+      return;
+    }
+    setTimeout(type, 85);
+  } else {
+    searchInput.placeholder = phrase.substring(0, cIdx - 1);
+    cIdx--;
+    if (cIdx === 0) {
+      deleting = false;
+      pIdx = (pIdx + 1) % phrases.length;
+      setTimeout(type, 500);
+      return;
+    }
+    setTimeout(type, 40);
+  }
+}
+searchInput.addEventListener('focus', () => { paused = true; });
+searchInput.addEventListener('blur', () => { if (!searchInput.value) paused = false; });
+setTimeout(type, 1000);
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const q = searchInput.value.trim();
+  if (!q) { searchInput.focus(); return; }
+  showToast(`Opening the ${detectService(q)} service page for “${q}”.`);
+});
+document.querySelectorAll('.popular button').forEach(b => {
+  b.onclick = () => { searchInput.value = b.dataset.search; searchInput.focus(); };
+});
+function detectService(q) {
+  q = q.toLowerCase();
+  if (/video|animation|motion|edit|reel/.test(q)) return 'Video & Animation';
+  if (/\bai\b|automation|llm|chatbot|workflow/.test(q)) return 'AI & Automation';
+  if (/mark|social|seo|brand|ads|email|graphic/.test(q)) return 'Marketing';
+  return 'Website & Development';
+}
+
+/* ============================================================
+   AI DRAWER
+   ============================================================ */
+const drawer = document.getElementById('aiDrawer');
+const overlay = document.getElementById('aiOverlay');
+const aiBody = document.getElementById('aiBody');
+let aiHistory = [];
+
+function openDrawer(){
+  drawer.classList.add('open'); overlay.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  topbar.classList.add('on-dark');
+}
+function closeDrawer(){
+  drawer.classList.remove('open'); overlay.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+  topbar.classList.remove('on-dark');
+}
+document.getElementById('aiFab').onclick = openDrawer;
+document.getElementById('searchAi').onclick = openDrawer;
+document.getElementById('aiClose').onclick = closeDrawer;
+overlay.onclick = closeDrawer;
+
+function renderStart() {
+  aiHistory = [];
+  aiBody.innerHTML = `
+    <div class="ai-question">Are you looking to hire the <em>agency</em>, or a <em>freelancer?</em></div>
+    <div class="ai-choices">
+      <button class="ai-choice" data-path="agency">
+        <div><div class="choice-label">Hire the agency</div><div class="choice-meta">A team scopes and delivers the project</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+      <button class="ai-choice" data-path="freelancer">
+        <div><div class="choice-label">Find a freelancer</div><div class="choice-meta">A specialist works with you directly</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+    </div>
+  `;
+  attachChoices();
+}
+
+function renderServices(path) {
+  aiHistory.push(path);
+  const title = path === 'agency'
+    ? 'What do you need the team to <em>deliver?</em>'
+    : 'What kind of specialist are you <em>looking for?</em>';
+  aiBody.innerHTML = `
+    <button class="ai-back" data-back>← Back</button>
+    <div class="ai-question">${title}</div>
+    <div class="ai-choices">
+      <button class="ai-choice" data-service="Website & Development">
+        <div><div class="choice-label">Website & Development</div><div class="choice-meta">UI/UX, WordPress, Webflow, Shopify</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+      <button class="ai-choice" data-service="Marketing">
+        <div><div class="choice-label">Marketing</div><div class="choice-meta">Social, SEO, paid ads, brand</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+      <button class="ai-choice" data-service="Video & Animation">
+        <div><div class="choice-label">Video & Animation</div><div class="choice-meta">Editing, motion, 2D animation</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+      <button class="ai-choice" data-service="AI & Automation">
+        <div><div class="choice-label">AI & Automation</div><div class="choice-meta">Chatbots, integrations, workflows</div></div>
+        <span class="choice-arrow">↗</span>
+      </button>
+    </div>
+  `;
+  attachChoices();
+}
+
+function renderMatches(service) {
+  aiHistory.push(service);
+  const matches = getMatches(service);
+  aiBody.innerHTML = `
+    <button class="ai-back" data-back>← Back</button>
+    <div class="ai-question">Here are <em>three specialists</em> for ${service}.</div>
+    <div class="ai-choices">
+      ${matches.map(m => `
+        <a class="ai-gig" href="#join">
+          <img src="${m.img}" alt="">
+          <div>
+            <div class="gig-name">${m.name}</div>
+            <div class="gig-role">${m.role} · ★ ${m.rating}</div>
+            <div class="gig-tags">${m.tags.map(t => `<span>${t}</span>`).join('')}</div>
+          </div>
+        </a>
+      `).join('')}
+    </div>
+    <button class="ai-shuffle" data-shuffle>✦ Show me others</button>
+  `;
+  attachChoices();
+}
+
+function getMatches(service) {
+  const pools = {
+    'Website & Development': [
+      { name: 'David O.', role: 'Web Developer', rating: '4.9', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=85', tags: ['WordPress', 'Web Design'] },
+      { name: 'Tunde A.', role: 'Software Engineer', rating: '5.0', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=85', tags: ['React', 'Frontend'] },
+      { name: 'Ifeoma N.', role: 'UI/UX Designer', rating: '4.8', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=85', tags: ['Figma', 'Fintech'] }
+    ],
+    'Marketing': [
+      { name: 'Chinma O.', role: 'Digital Marketer', rating: '4.8', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=85', tags: ['Social', 'Strategy'] },
+      { name: 'Maya R.', role: 'Brand Strategist', rating: '4.7', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=160&q=85', tags: ['Brand', 'Paid Ads'] },
+      { name: 'Kelechi A.', role: 'SEO Specialist', rating: '4.9', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=85', tags: ['SEO', 'Content'] }
+    ],
+    'Video & Animation': [
+      { name: 'Nneka E.', role: 'Motion Designer', rating: '4.9', img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&q=85', tags: ['Motion', 'Branding'] },
+      { name: 'Femi B.', role: 'Video Editor', rating: '4.9', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=160&q=85', tags: ['Reels', 'Color'] },
+      { name: 'Zainab K.', role: '2D Animator', rating: '5.0', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=85', tags: ['2D', 'Explainer'] }
+    ],
+    'AI & Automation': [
+      { name: 'Kelechi A.', role: 'AI Automation Specialist', rating: '4.9', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=85', tags: ['Automation', 'Integrations'] },
+      { name: 'Sam O.', role: 'AI Engineer', rating: '5.0', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=85', tags: ['LLM', 'Workflows'] },
+      { name: 'Adaeze M.', role: 'AI Product Designer', rating: '4.7', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=85', tags: ['Chatbots', 'RAG'] }
+    ]
+  };
+  return pools[service] || pools['Website & Development'];
+}
+
+function attachChoices() {
+  aiBody.querySelectorAll('[data-path]').forEach(b => b.onclick = () => renderServices(b.dataset.path));
+  aiBody.querySelectorAll('[data-service]').forEach(b => b.onclick = () => renderMatches(b.dataset.service));
+  const back = aiBody.querySelector('[data-back]');
+  if (back) back.onclick = () => renderStart();
+  const shuffle = aiBody.querySelector('[data-shuffle]');
+  if (shuffle) shuffle.onclick = () => {
+    const service = aiHistory[aiHistory.length - 1];
+    renderMatches(service);
+  };
+}
+renderStart();
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(text) {
+  let el = document.getElementById('toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translate(-50%,16px);opacity:0;background:#172c52;color:#fff;padding:12px 18px;border-radius:999px;font-size:12px;z-index:200;transition:.3s;pointer-events:none;max-width:90vw;text-align:center';
+    document.body.appendChild(el);
+  }
+  el.textContent = text;
+  requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'translate(-50%,0)'; });
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translate(-50%,16px)'; }, 3200);
+}
+
+if (document.fonts) {
+  document.fonts.ready.then(() => ScrollTrigger.refresh());
+}
+</script>
+</body>
+</html>
