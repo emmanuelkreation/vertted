@@ -15,6 +15,7 @@
 :root{
   --canvas:#ffffff;
   --soft:#f5f7fa;
+  --navy:#172c52;
   --ink:#172238;
   --muted:#5f6b7d;
   --accent:#f47716;
@@ -28,10 +29,10 @@
   --ease-out:cubic-bezier(.22,1,.36,1);
   --ease-spring:cubic-bezier(.25,1,.5,1);
   --max:1200px;
-  /* fluid type scale: min 16px body, no text below 14px */
+  /* fluid type scale: nothing below 14px */
   --fs-display:clamp(42px, 7vw, 84px);
   --fs-h2:clamp(32px, 4.4vw, 54px);
-  --fs-h3:clamp(22px, 2.4vw, 30px);
+  --fs-h3:clamp(20px, 2.4vw, 28px);
   --fs-body:clamp(16px, 1.1vw + 14px, 18px);
   --fs-sm:clamp(14px, .4vw + 13px, 15px);
   --fs-xs:14px;
@@ -111,7 +112,7 @@ p{margin:0}
 .mobile-toggle{display:none;font-size:24px;line-height:1;color:inherit;padding:8px}
 
 /* ============================================================
-   HERO (fits one screen, image-led, fewer solid navy blocks)
+   HERO
    ============================================================ */
 .hero{
   position:relative;isolation:isolate;overflow:hidden;
@@ -228,7 +229,7 @@ p{margin:0}
 .text-link:hover{color:var(--accent);border-color:var(--accent)}
 
 /* ============================================================
-   SERVICES STACK (image-led panels, no solid navy fill)
+   SERVICES STACK
    ============================================================ */
 .stack{position:relative;background:var(--canvas)}
 .stack-card{position:sticky;top:0;height:100svh;min-height:560px;display:flex;align-items:center;will-change:transform,filter}
@@ -270,7 +271,7 @@ p{margin:0}
 }
 
 /* ============================================================
-   NICHE (image background, warm not blue)
+   NICHE
    ============================================================ */
 .niche{
   position:relative;background:var(--soft);color:#172238;
@@ -305,7 +306,7 @@ p{margin:0}
 @media(max-width:720px){.niche-grid{grid-template-columns:1fr}}
 
 /* ============================================================
-   SPECIALISTS CAROUSEL (container-query friendly)
+   SPECIALISTS CAROUSEL
    ============================================================ */
 .specialists{background:var(--canvas)}
 .specialist-carousel{overflow:hidden;position:relative;padding:8px 0}
@@ -380,7 +381,7 @@ p{margin:0}
 }
 
 /* ============================================================
-   REVIEWS (image texture, not solid navy)
+   REVIEWS — RESPONSIVE (rewritten)
    ============================================================ */
 .reviews{
   position:relative;background:var(--soft);
@@ -392,7 +393,10 @@ p{margin:0}
     url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1400&q=85') center/cover no-repeat;
 }
 .reviews .container{position:relative;z-index:1}
-.reviews-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.reviews-layout{
+  display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;
+}
+/* Left queue card */
 .review-queue{
   position:relative;height:380px;border-radius:var(--radius-lg);
   background:#172c52;overflow:hidden;display:grid;place-items:center;
@@ -414,6 +418,7 @@ p{margin:0}
 .queue-line.short{width:60%}
 .queue-approve{position:absolute;right:18px;bottom:18px;display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--green);letter-spacing:.08em;text-transform:uppercase}
 .queue-approve::before{content:"✓";width:16px;height:16px;border-radius:50%;background:rgba(25,184,121,.2);display:grid;place-items:center;font-size:9px}
+/* Right copy */
 .review-copy h2{font-family:"Fraunces",serif;font-weight:300;font-size:var(--fs-h2);line-height:1.05;letter-spacing:-.04em;margin-bottom:16px;color:#172238}
 .review-copy h2 em{color:var(--accent)}
 .review-copy p{max-width:40ch;font-size:var(--fs-sm);color:var(--muted);line-height:1.75;margin-bottom:24px}
@@ -422,21 +427,50 @@ p{margin:0}
 .rt-num{font-family:"Fraunces",serif;font-size:var(--fs-micro);color:var(--accent);min-width:20px}
 .rt-item b{font-size:var(--fs-sm);font-weight:700;display:block;margin-bottom:2px;color:#172238}
 .rt-item span{font-size:var(--fs-micro);color:var(--muted)}
-.review-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
-.review-strip::-webkit-scrollbar{height:3px}
-.review-strip::-webkit-scrollbar-thumb{background:rgba(23,44,82,.15);border-radius:3px}
-.strip-card{flex:none;width:240px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
-.strip-card .s-stars{color:#d98a1f;font-size:12px;margin-bottom:8px}
-.strip-card p{font-size:var(--fs-micro);line-height:1.6;color:#4b5768;margin-bottom:10px}
-.strip-card b{font-size:11px;font-weight:700;color:#172238}
-.strip-card span{font-size:11px;color:var(--muted);display:block}
+/* Review cards grid — NEW responsive structure */
+.review-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+  margin-top:8px;
+}
+.review-card{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:18px;transition:border-color .2s,box-shadow .2s;
+  display:flex;flex-direction:column;
+}
+.review-card:hover{border-color:rgba(244,119,22,.3);box-shadow:0 8px 24px rgba(23,44,82,.06)}
+.review-card .rc-stars{color:#d98a1f;font-size:12px;margin-bottom:8px;letter-spacing:1px}
+.review-card p{font-size:var(--fs-micro);line-height:1.65;color:#4b5768;margin-bottom:12px;flex:1}
+.review-card .rc-meta{display:flex;align-items:center;gap:8px}
+.review-card .rc-avatar{
+  width:32px;height:32px;border-radius:50%;background:var(--soft);
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--navy);flex:none;
+}
+.review-card .rc-name{font-size:11px;font-weight:700;color:#172238}
+.review-card .rc-project{font-size:10px;color:var(--muted);display:block}
+.review-card .rc-verified{
+  font-size:9px;font-weight:700;color:#128a5b;display:inline-flex;align-items:center;gap:3px;
+  margin-left:auto;
+}
+.review-card .rc-verified::before{content:"✓";font-size:9px}
+/* Featured card variant */
+.review-card.featured{
+  border-color:rgba(244,119,22,.35);
+  background:linear-gradient(160deg,#fff 60%,rgba(244,119,22,.04));
+}
+
 @media(max-width:860px){
-  .reviews-layout{grid-template-columns:1fr;gap:28px}
+  .reviews-layout{grid-template-columns:1fr;gap:32px}
   .review-queue{height:320px}
+  .review-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .review-queue{height:280px}
+  .queue-card{width:82%;max-width:260px}
+  .review-card{padding:16px}
 }
 
 /* ============================================================
-   JOIN (image background)
+   JOIN
    ============================================================ */
 .join{
   position:relative;color:#fff;padding:clamp(88px,11vw,150px) 0;overflow:hidden;text-align:center;
@@ -531,7 +565,7 @@ footer{background:var(--canvas);color:var(--ink);border-top:1px solid var(--line
 }
 
 /* ============================================================
-   RESPONSIVE (mobile-first overrides)
+   RESPONSIVE
    ============================================================ */
 @media(max-width:1024px){
   .hero-grid{grid-template-columns:1fr;gap:32px}
@@ -929,9 +963,13 @@ footer{background:var(--canvas);color:var(--ink);border-top:1px solid var(--line
   </div>
 </section>
 
+<!-- ============================================================
+     REVIEWS SECTION — rewritten for mobile
+     ============================================================ -->
 <section class="reviews">
   <div class="container">
     <div class="reviews-layout">
+      <!-- Left: animated moderation queue -->
       <div class="review-queue reveal">
         <div class="queue-card">
           <div class="q-head"><div class="q-avatar"></div><div><div class="q-name">Amara K.</div><div class="q-role">Product lead</div></div></div>
@@ -948,6 +986,7 @@ footer{background:var(--canvas);color:var(--ink);border-top:1px solid var(--line
         </div>
       </div>
 
+      <!-- Right: copy + responsive review grid -->
       <div class="review-copy reveal">
         <div class="kicker">Built around real trust</div>
         <h2>Reviews that <em>mean something.</em></h2>
@@ -958,10 +997,45 @@ footer{background:var(--canvas);color:var(--ink);border-top:1px solid var(--line
           <div class="rt-item"><div class="rt-num">03</div><div><b>Admin moderation</b><span>The review is checked and approved.</span></div></div>
           <div class="rt-item"><div class="rt-num">04</div><div><b>Published with context</b><span>It appears on matching gigs and the profile.</span></div></div>
         </div>
-        <div class="review-strip">
-          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“She understood the fintech constraints immediately. The Figma files were clean and the handoff was painless.”</p><b>Amara K.</b><span>UI/UX project</span></div>
-          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“Fast, clear and genuinely strategic. Our onboarding conversion moved within the first two weeks.”</p><b>James R.</b><span>Marketing sprint</span></div>
-          <div class="strip-card"><div class="s-stars">★★★★★</div><p>“The edit kept the pace without losing the story. Exactly what the launch needed.”</p><b>Sofia M.</b><span>Video launch</span></div>
+
+        <!-- Responsive review cards -->
+        <div class="review-grid">
+          <article class="review-card featured">
+            <div class="rc-stars">★★★★★</div>
+            <p>“She understood the fintech constraints immediately. The Figma files were clean and the handoff was painless.”</p>
+            <div class="rc-meta">
+              <div class="rc-avatar">AK</div>
+              <div><div class="rc-name">Amara K.</div><span class="rc-project">UI/UX project</span></div>
+              <span class="rc-verified">Verified</span>
+            </div>
+          </article>
+          <article class="review-card">
+            <div class="rc-stars">★★★★★</div>
+            <p>“Fast, clear and genuinely strategic. Our onboarding conversion moved within the first two weeks.”</p>
+            <div class="rc-meta">
+              <div class="rc-avatar">JR</div>
+              <div><div class="rc-name">James R.</div><span class="rc-project">Marketing sprint</span></div>
+              <span class="rc-verified">Verified</span>
+            </div>
+          </article>
+          <article class="review-card">
+            <div class="rc-stars">★★★★★</div>
+            <p>“The edit kept the pace without losing the story. Exactly what the launch needed.”</p>
+            <div class="rc-meta">
+              <div class="rc-avatar">SM</div>
+              <div><div class="rc-name">Sofia M.</div><span class="rc-project">Video launch</span></div>
+              <span class="rc-verified">Verified</span>
+            </div>
+          </article>
+          <article class="review-card">
+            <div class="rc-stars">★★★★★</div>
+            <p>“The AI workflow saved our team hours every week. Clear documentation, no surprises.”</p>
+            <div class="rc-meta">
+              <div class="rc-avatar">KA</div>
+              <div><div class="rc-name">Kelechi A.</div><span class="rc-project">AI automation</span></div>
+              <span class="rc-verified">Verified</span>
+            </div>
+          </article>
         </div>
       </div>
     </div>
